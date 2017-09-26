@@ -31,5 +31,5 @@
   with_items: "{{ server_users }}"
   no_log: "{{ server_users_no_log }}"
   vars:
-    server_users_role_path: "{{ item.ansible_role_path | default(server_users_ansible_role_path) }}"
-    server_users_ansible_nocows: "{{ item.ansible_nocows | default(server_users_ansible_nocows) }}"
+    ansible_cfg_role_path: "{{ item.ansible_role_path | default(server_users_ansible_role_path) }}"
+    ansible_cfg_nocows: "{{ item.ansible_nocows | default(server_users_ansible_nocows) }}"
