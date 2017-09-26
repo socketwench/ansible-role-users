@@ -1,0 +1,35 @@
+---
+- name: Create server user groups.
+  group:
+    name: "{{ item.group | default(item.name) }}"
+    state: present
+  with_items: "{{ server_users }}"
+  no_log: "{{ server_users_no_log }}"
+- name: Create server users.
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password | password_hash('sha512') }}"
+    group: "{{ item.group | default(item.name) }}"
+    groups: "{{ item.groups | default('') }}"
+    generate_ssh_key: "{{ item.ssh_key_generate | default(server_users_ssh_key_generate) }}"
+    ssh_key_bits: "{{ item.ssh_key_bits | default(server_users_ssh_key_bits) }}"
+    shell: "{{ item.shell | default(server_users_shell) }}"
+  with_items: "{{ server_users }}"
+  no_log: "{{ server_users_no_log }}"
+- name: Set authorized keys per user.
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.auth_keys }}"
+    state: present
+    exclusive: yes
+  with_items: "{{ server_users }}"
+  no_log: "{{ server_users_no_log }}"
+- name: Add ansible.cfg to each user acount.
+  template:
+    src: "templates/user_ansible.cfg.j2"
+    dest: "/home/{{ item.name }}/.ansible.cfg"
+  with_items: "{{ server_users }}"
+  no_log: "{{ server_users_no_log }}"
+  vars:
+    server_users_role_path: "{{ item.ansible_role_path | default(server_users_ansible_role_path) }}"
+    server_users_ansible_nocows: "{{ item.ansible_nocows | default(server_users_ansible_nocows) }}"

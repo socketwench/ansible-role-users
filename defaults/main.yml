@@ -1,0 +1,6 @@
+---
+# defaults file for ansible-role-users
+server_users_no_log: true
+server_users_ssh_key_generate: yes
+server_users_ssh_key_bits: "4096"
+server_users_shell: "/bin/bash"
