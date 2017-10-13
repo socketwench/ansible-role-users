@@ -18,4 +18,5 @@ galaxy_info:
     - debian
     - server
     - users
-dependencies: []
+dependencies:
+  - geerlingguy.firewall
