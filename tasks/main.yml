@@ -14,7 +14,7 @@
     generate_ssh_key: "{{ item.ssh_key_generate | default(server_users_ssh_key_generate) }}"
     ssh_key_bits: "{{ item.ssh_key_bits | default(server_users_ssh_key_bits) }}"
     shell: "{{ item.shell | default(server_users_shell) }}"
-    home: "{{ item.home | default('') }}"
+    home: "{{ item.home | default(null) }}"
     createhome: "{{ item.createhome | default('yes') }}"
     move_home: "{{ item.move_home | default('yes') }}"
   with_items: "{{ server_users }}"
