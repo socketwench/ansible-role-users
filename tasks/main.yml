@@ -22,7 +22,7 @@
 - name: Set authorized keys per user.
   authorized_key:
     user: "{{ item.name }}"
-    key: "{{ item.auth_keys }}"
+    key: "{{ item.auth_keys | default('') }}"
     state: present
     exclusive: yes
   with_items: "{{ server_users }}"
