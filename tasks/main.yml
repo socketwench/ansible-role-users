@@ -10,7 +10,7 @@
 - name: Create server users.
   user:
     name: "{{ item.name }}"
-    password: "{{ item.password | password_hash('sha512') }}"
+    password: "{{ item.password | default('') | password_hash('sha512') }}"
     state: "{{ item.state | default('present') }}"
     remove: "{{ item.remove | default('no') }}"
     group: "{{ item.group | default(item.name) }}"
