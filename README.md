@@ -95,6 +95,21 @@ Again, you can do this per user:
         ansible_role_path: "/etc/ansible/roles"
         ansible_nocows: 0
 
+### Removing and deleting users
+
+You can also remove users by using the `state` variable:
+
+    server_users:
+      - name: "ash"
+        state: absent
+
+If you wish to also delete their home directory, use `remove`:
+
+    server_users:
+      - name: "ash"
+        state: absent
+        remove: yes
+
 ## Dependencies
 
 None.

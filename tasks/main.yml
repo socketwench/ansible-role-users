@@ -5,10 +5,14 @@
     state: present
   with_items: "{{ server_users }}"
   no_log: "{{ server_users_no_log }}"
+  when: (item.state | default('present')) == 'present'
+
 - name: Create server users.
   user:
     name: "{{ item.name }}"
     password: "{{ item.password | password_hash('sha512') }}"
+    state: "{{ item.state | default('present') }}"
+    remove: "{{ item.remove | default('no') }}"
     group: "{{ item.group | default(item.name) }}"
     groups: "{{ item.groups | default('') }}"
     generate_ssh_key: "{{ item.ssh_key_generate | default(server_users_ssh_key_generate) }}"
@@ -19,6 +23,7 @@
     move_home: "{{ item.move_home | default('yes') }}"
   with_items: "{{ server_users }}"
   no_log: "{{ server_users_no_log }}"
+
 - name: Set authorized keys per user.
   authorized_key:
     user: "{{ item.name }}"
@@ -27,6 +32,8 @@
     exclusive: yes
   with_items: "{{ server_users }}"
   no_log: "{{ server_users_no_log }}"
+  when: (item.state | default('present')) == 'present'
+
 - name: Add ansible.cfg to each user acount.
   template:
     src: "templates/user_ansible.cfg.j2"
@@ -36,3 +43,4 @@
   vars:
     ansible_cfg_role_path: "{{ item.ansible_role_path | default(server_users_ansible_role_path) }}"
     ansible_cfg_nocows: "{{ item.ansible_nocows | default(server_users_ansible_nocows) }}"
+  when: (item.state | default('present')) == 'present'
