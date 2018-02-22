@@ -8,6 +8,9 @@ server_users_shell: "/bin/bash"
 # defaults for ansible config.
 server_users_ansible_role_path: '~/.ansible/roles'
 server_users_ansible_nocows: '1'
+server_users_ansible_log: false
+server_users_ansible_log_path: '~/logs/ansible.log'
+server_users_ansible_log_mode: 'u=wrx,g=rx,o='
 
 # Disable other firewall management software
 firewall_disable_firewalld: true
