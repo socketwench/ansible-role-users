@@ -34,17 +34,6 @@
   no_log: "{{ server_users_no_log }}"
   when: (item.state | default('present')) == 'present'
 
-- name: Create ansible log directory for each user account.
-  file:
-    path: "{{ item.ansible_log_path | default(server_users_ansible_log_path) }}"
-    state: directory
-    mode: "{{ item.ansible_log_mode | default(server_users_ansible_log_mode) }}"
-  with_items: "{{ server_users }}"
-  no_log: "{{ server_users_no_log }}"
-  when:
-    - (item.state | default('present')) == 'present'
-    - (item.ansible_log | default(server_users_ansible_log)) == true
-
 - name: Add ansible.cfg to each user acount.
   template:
     src: "templates/user_ansible.cfg.j2"

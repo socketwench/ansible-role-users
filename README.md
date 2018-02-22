@@ -87,8 +87,7 @@ This allows you to override the default role_path and no_cows settings:
     server_users_ansible_role_path:  "~/.ansible/roles"
     server_users_ansible_nocows: 1
     server_users_ansible_log: false
-    server_users_ansible_log_path: '~/logs/ansible.log'
-    server_users_ansible_log_mode: 'o=wrx,g=rx,a='
+    server_users_ansible_log_path: '~/ansible.log'
 
 Again, you can do this per user:
 
@@ -98,8 +97,7 @@ Again, you can do this per user:
         ansible_role_path: "/etc/ansible/roles"
         ansible_nocows: 0
         ansible_log: true
-        ansible_log_path: "~/logs/ansible.log"
-        ansible_log_mode: "o=wrx,g=wrx,a="
+        ansible_log_path: "/home/ash/logs/ansible.log"
 
 ### Removing and deleting users
 
