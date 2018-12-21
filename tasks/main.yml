@@ -1,11 +1,26 @@
 ---
-- name: Create server user groups.
+- name: Create server user prinary groups.
   group:
     name: "{{ item.group | default(item.name) }}"
     state: present
   with_items: "{{ server_users }}"
   no_log: "{{ server_users_no_log }}"
   when: (item.state | default('present')) == 'present'
+
+- name: Assemble a list of secondary groups.
+  set_fact:
+    _server_users_secondary_groups: "{{ _server_users_secondary_groups }} + {{ item.groups | default([]) }}"
+  with_items: "{{ server_users }}"
+  no_log: "{{ server_users_no_log }}"
+  when: (item.state | default('present')) == 'present'
+
+- name: Create secondary groups.
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ _server_users_secondary_groups }}"
+  no_log: "{{ server_users_no_log }}"
+  when: item != ""
 
 - name: Create server users.
   user:
