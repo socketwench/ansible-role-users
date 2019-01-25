@@ -11,9 +11,5 @@ server_users_ansible_nocows: '1'
 server_users_ansible_log: false
 server_users_ansible_log_path: '~/ansible.log'
 
-# Disable other firewall management software
-firewall_disable_firewalld: true
-firewall_disable_ufw: true
-
 # Internal variables
 _server_users_secondary_groups: []
